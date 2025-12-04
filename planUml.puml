@@ -1,0 +1,74 @@
+@startuml
+' Definimos los enums
+enum Rol {
+    CLIENTE
+    OPERARIO
+    ADMIN
+}
+
+enum EstadoPedido {
+    RECIBIDO
+    EN_PREPARACION
+    ENVIADO
+}
+
+' Entidad Usuario
+class Usuario {
+    +Long id
+    +String username
+    +String password
+    +String email
+    +String telefono
+    +String nombre
+    +String apellidos
+    +Rol rol
+}
+
+' Entidad Direccion
+class Direccion {
+    +Long id
+    +String tipoVia
+    +String nombreVia
+    +String numero
+    +String portal
+    +String puerta
+    +String cp
+    +String poblacion
+    +String municipio
+    +String provincia
+    +String pais
+    +String telefono
+    +boolean porDefecto
+}
+
+' Entidad Producto
+class Producto {
+    +Long id
+    +String nombre
+    +String descripcion
+    +String numero
+    +BigDecimal precio
+}
+
+' Entidad Pedido
+class Pedido {
+    +Long id
+    +LocalDate fechaRecepcion
+    +EstadoPedido estado
+}
+
+' Entidad DetallePedido
+class DetallePedido {
+    +Long id
+    +int cantidad
+    +BigDecimal precio
+}
+
+' Relaciones
+Usuario "1" -- "0..*" Direccion : tiene
+Usuario "1" -- "0..*" Pedido : realiza
+Pedido "1" -- "0..*" DetallePedido : contiene
+DetallePedido "1" -- "1" Producto : referencia
+Pedido "1" -- "1" Direccion : direccionEnvio
+
+@enduml
